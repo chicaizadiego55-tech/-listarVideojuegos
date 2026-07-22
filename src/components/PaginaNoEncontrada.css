@@ -1,0 +1,65 @@
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 20px;
+}
+
+.error-card {
+    text-align: center;
+    background-color: var(--bg-card);
+    padding: 50px 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    max-width: 480px;
+    width: 100%;
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.error-card h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.error-card h2 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.error-card p {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+.btn-volver {
+    display: inline-block;
+    text-decoration: none;
+    background-color: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    transition: all 0.2s ease;
+}
+
+.btn-volver:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
