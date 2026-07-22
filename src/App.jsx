@@ -12,28 +12,32 @@ import NoEncontrada from "./components/PaginaNoEncontrada.jsx";
 function App() {
   const [videojuegos, setVideojuegos] = useState(data);
 
-  // Agregar videojuego
+  // Agregar videojuego (garantiza un ID único si no viene uno)
   function agregarJuego(nuevoJuego) {
-    setVideojuegos([...videojuegos, nuevoJuego]);
+    const juegoConId = {
+      ...nuevoJuego,
+      id: nuevoJuego.id || Date.now()
+    };
+    setVideojuegos((prev) => [...prev, juegoConId]);
   }
 
   // Eliminar videojuego
   function eliminarJuego(id) {
-    setVideojuegos(videojuegos.filter((juego) => juego.id !== id));
+    setVideojuegos((prev) => prev.filter((juego) => juego.id !== id));
   }
 
-  // Editar videojuego
+  // Editar videojuego (Corregido el typo de videoJuegos -> videojuegos)
   function editarJuego(juegoEditado) {
-    setVideojuegos(
-      videoJuegos.map((juego) =>
+    setVideojuegos((prev) =>
+      prev.map((juego) =>
         juego.id === juegoEditado.id ? juegoEditado : juego
       )
     );
   }
 
-  // Guardar (nuevo o editado)
+  // Guardar (crear o actualizar)
   function manejarGuardar(videojuego) {
-    const existe = videojuegos.find(
+    const existe = videojuegos.some(
       (juego) => juego.id === videojuego.id
     );
 
@@ -48,40 +52,44 @@ function App() {
     <>
       <Navbar />
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <TablaVideojuegos
-              videoJuegos={videojuegos}
-              onEliminar={eliminarJuego}
-            />
-          }
-        />
+      <main className="main-content">
+        <Routes>
+          {/* Listado principal */}
+          <Route
+            path="/"
+            element={
+              <TablaVideojuegos
+                videoJuegos={videojuegos}
+                onEliminar={eliminarJuego}
+              />
+            }
+          />
 
-        <Route
-          path="/Registrar"
-          element={
-            <FormularioVideojuego
-              onGuardar={manejarGuardar}
-            />
-          }
-        />
+          {/* Registrar nuevo videojuego */}
+          <Route
+            path="/registrar"
+            element={
+              <FormularioVideojuego
+                onGuardar={manejarGuardar}
+              />
+            }
+          />
 
-        <Route
-          path="/Editar"
-          element={
-            <FormularioVideojuego
-              onGuardar={manejarGuardar}
-            />
-          }
-        />
+          
+          <Route
+            path="/editar/:id"
+            element={
+              <FormularioVideojuego
+                videojuegos={videojuegos}
+                onGuardar={manejarGuardar}
+              />
+            }
+          />
 
-        <Route
-          path="*"
-          element={<NoEncontrada />}
-        />
-      </Routes>
+          {/* Página 404 */}
+          <Route path="*" element={<NoEncontrada />} />
+        </Routes>
+      </main>
     </>
   );
 }

@@ -1,29 +1,40 @@
+/* ==========================================================================
+   CONTENEDOR Y TARJETA PRINCIPAL
+   ========================================================================== */
 .contenedor-formulario {
-    max-width: 650px;
+    max-width: 680px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
 .card-formulario {
-    background-color: var(--bg-card);
+    background-color: var(--bg-card, #1e293b);
     padding: 36px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg, 16px);
+    box-shadow: var(--shadow-lg, 0 10px 25px -5px rgba(0, 0, 0, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: box-shadow 0.3s ease;
 }
 
 .card-formulario h1 {
     font-size: 1.8rem;
     margin-bottom: 6px;
+    color: var(--text-main, #ffffff);
 }
 
 .card-formulario p {
-    color: var(--text-muted);
+    color: var(--text-muted, #94a3b8);
     margin-bottom: 24px;
+    font-size: 0.95rem;
 }
 
+/* ==========================================================================
+   ESTRUCTURA DE CAMPOS E INPUTS
+   ========================================================================== */
 .campo {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .campo label,
@@ -32,86 +43,178 @@
     font-size: 0.9rem;
     font-weight: 600;
     margin-bottom: 8px;
-    color: var(--text-main);
+    color: var(--text-main, #e2e8f0);
 }
 
+/* Header flexible para textarea (Label + Contador) */
+.label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contador {
+    font-size: 0.78rem;
+    color: var(--text-muted, #94a3b8);
+    font-weight: 500;
+}
+
+/* Estilo unificado para Inputs, Selects, Date y Textarea */
 .campo input[type="text"],
 .campo input[type="number"],
-.campo select {
+.campo input[type="date"],
+.campo select,
+.campo textarea {
     width: 100%;
     padding: 12px 16px;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    color: white;
+    background-color: var(--bg-input, #0f172a);
+    border: 1px solid var(--border-color, #334155);
+    border-radius: var(--radius-sm, 8px);
+    color: #ffffff;
     font-size: 0.95rem;
+    font-family: inherit;
     outline: none;
-    transition: all 0.2s ease;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+/* Efectos de Focus Modernos */
 .campo input:focus,
-.campo select:focus {
-    border-color: var(--primary);
+.campo select:focus,
+.campo textarea:focus {
+    border-color: var(--primary, #6366f1);
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    background-color: rgba(15, 23, 42, 0.8);
 }
 
-/* Selector estilo Radio Pills */
+/* Expansión elegante del Textarea */
+.campo textarea {
+    resize: vertical;
+    min-height: 85px;
+    transition: min-height 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.campo textarea:focus {
+    min-height: 120px;
+}
+
+/* Icono del calendario adaptado en input date */
+.campo input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   FEEDBACK VISUAL DINÁMICO (ERRORES Y VALIDACIONES)
+   ========================================================================== */
+.campo input.input-error,
+.campo textarea.input-error,
+.campo select.input-error {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+.campo input.input-error:focus,
+.campo textarea.input-error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Animación de entrada para mensajes de error */
+.error-mensaje {
+    color: #f87171;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: errorFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes errorFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   SELECTOR ESTILO RADIO PILLS (PLATAFORMAS)
+   ========================================================================== */
 .plataformas {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 8px;
+    margin-top: 4px;
+    margin-bottom: 0;
 }
 
 .plataformas label {
     display: flex;
     align-items: center;
-    background-color: var(--bg-input);
+    background-color: var(--bg-input, #0f172a);
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 0.85rem;
     cursor: pointer;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color, #334155);
     transition: all 0.2s ease;
     margin: 0;
+    user-select: none;
+}
+
+.plataformas label:hover {
+    border-color: var(--primary, #6366f1);
 }
 
 .plataformas input[type="radio"] {
     margin-right: 8px;
-    accent-color: var(--primary);
+    accent-color: var(--primary, #6366f1);
 }
 
 .plataformas label:has(input:checked) {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: white;
+    background-color: var(--primary, #6366f1);
+    border-color: var(--primary, #6366f1);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
-/* Layout Grid para campos dobles */
+/* ==========================================================================
+   LAYOUT GRID RESPONSIVO
+   ========================================================================== */
 .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     gap: 16px;
 }
 
-/* Checkbox personalizado */
+/* ==========================================================================
+   CHECKBOX PERSONALIZADO Y BOTONES
+   ========================================================================== */
 .check {
     display: flex;
     align-items: center;
     gap: 10px;
     font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-main, #ffffff);
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 6px;
     margin-bottom: 28px;
+    user-select: none;
 }
 
 .check input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: var(--success);
+    accent-color: var(--success, #10b981);
+    cursor: pointer;
 }
 
-/* Botones de acción */
 .botones {
     display: flex;
     gap: 14px;
@@ -121,8 +224,8 @@
     flex: 1;
     padding: 14px;
     border: none;
-    border-radius: var(--radius-sm);
-    font-size: 1rem;
+    border-radius: var(--radius-sm, 8px);
+    font-size: 0.98rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -130,22 +233,50 @@
 
 .cancelar {
     background-color: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--border-color) !important;
+    color: var(--text-muted, #94a3b8);
+    border: 1px solid var(--border-color, #334155) !important;
 }
 
 .cancelar:hover {
     background-color: rgba(255, 255, 255, 0.05);
-    color: white;
+    color: #ffffff;
 }
 
 .guardar {
-    background-color: var(--success);
-    color: white;
+    background-color: var(--success, #10b981);
+    color: #ffffff;
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .guardar:hover {
-    background-color: var(--success-hover);
+    background-color: var(--success-hover, #059669);
     transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.guardar:active,
+.cancelar:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   ADAPTACIÓN MÓVIL (UX/UI ADAPTATIVE)
+   ========================================================================== */
+@media (max-width: 600px) {
+    .card-formulario {
+        padding: 24px 18px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .botones {
+        flex-direction: column-reverse;
+    }
+
+    .botones button {
+        width: 100%;
+    }
 }

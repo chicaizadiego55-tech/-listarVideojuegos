@@ -6,6 +6,7 @@ function TablaVideojuegos({ videoJuegos, onEliminar }) {
 
     const navigate = useNavigate();
 
+
     function manejarEditar(juego) {
         navigate("/Editar", { state: { videojuego: juego } });
     }
@@ -97,8 +98,7 @@ function TablaVideojuegos({ videoJuegos, onEliminar }) {
                                     <div className="acciones">
 
                                         <button
-                                            className="editar"
-                                            onClick={() => manejarEditar(juego)}
+                                            onClick={() => navigate(`/editar/${juego.id}`)}
                                         >
                                             ✏ Editar
                                         </button>
